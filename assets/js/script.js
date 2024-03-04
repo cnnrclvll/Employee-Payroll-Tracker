@@ -10,9 +10,15 @@ const collectEmployees = function() { //defining a variable. variable is a FUNCT
     while (addingEmployees) { // begin WHILE loop when value for addingEmployees is true.
         const firstName = prompt("Enter the employee's first name:"); // defining a var within loop. user-defined value by way of PROMPT. expected value is a STRING.
         const lastName = prompt("Enter the employee's last name:"); // defining a var within loop. user-defined value by way of second PROMPT. expected value is a STRING.
-        let salary = prompt("Enter the employee's salary:"); // defining a var within loop. user-defined value by way of third PROMPT. === expected value is a NUMBER or STRING.
+        let salary;
 
-        salary = isNaN(Number(salary)) ? 0 : Number(salary); // if user-defined value for salary isNaN (not a number), value is 0 :else: value is user-defined NUMBER.
+        do {
+          salary = prompt("Enter the employee's salary (numbers only):");
+    
+          if (isNaN(Number(salary))) {
+            alert("Please enter a valid number for the salary.");
+          }
+        } while (isNaN(Number(salary)));
 
         const employee = { // defining a new variable within loop; variable is an OBJECT with three user-defined values.
             firstName: firstName, // user-defined STRING.
@@ -28,6 +34,7 @@ const collectEmployees = function() { //defining a variable. variable is a FUNCT
             addingEmployees = false; // change value of addingEmployees to false, ending the loop.
         }
     }
+    console.log("Number of employees:", employeesArray.length);
     return employeesArray; // return the employeesArray, so it can be added to table.
 }
 
@@ -90,10 +97,8 @@ const displayEmployees = function(employeesArray) {
 
     const salaryCell = document.createElement("td");
     // Format the salary as currency
-    salaryCell.textContent = currentEmployee.salary.toLocaleString("en-US",{
-      style:"currency",
-      currency:"USD"
-    });
+    const formattedSalary = '$' + numberWithCommas(currentEmployee.salary);
+    salaryCell.textContent = formattedSalary;
 
     newTableRow.append(salaryCell);
 
@@ -101,10 +106,12 @@ const displayEmployees = function(employeesArray) {
   }
 }
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const trackEmployeeData = function() {
   const employees = collectEmployees();
-
-  console.table(employees);
 
   displayAverageSalary(employees);
 
