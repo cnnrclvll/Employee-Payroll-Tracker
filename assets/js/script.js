@@ -74,9 +74,6 @@ const displayEmployees = function(employeesArray) {
   // Get the employee table
   const employeeTable = document.querySelector('#employee-table');
 
-  // Clear the employee table
-  employeeTable.innerHTML = '';
-
   // Loop through the employee data and create a row for each employee
   for (let i = 0; i < employeesArray.length; i++) {
     const currentEmployee = employeesArray[i];
