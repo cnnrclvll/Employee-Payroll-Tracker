@@ -1,5 +1,7 @@
 // Get a reference to the #add-employees-btn element
 const addEmployeesBtn = document.querySelector('#add-employees-btn');
+let totalSalary = 0; // variable for salary total
+let numberOfEmployees = 0; // variable for number of employees
 
 // Collect employee data
 const collectEmployees = function() { //defining a variable. variable is a FUNCTION.
@@ -23,11 +25,12 @@ const collectEmployees = function() { //defining a variable. variable is a FUNCT
         const employee = { // defining a new variable within loop; variable is an OBJECT with three user-defined values.
             firstName: firstName, // user-defined STRING.
             lastName: lastName, // user-defined STRING.
-            salary: salary // user-defined NUMBER.
+            salary: parseFloat(salary) // user-defined NUMBER.
         };
 
         employeesArray.push(employee); // push employee object into employees ARRAY, which exists outside the present loop.
-
+        totalSalary += employee.salary; // add employee salary to totalSalary
+        numberOfEmployees++; // increment number of employees for averaging (later)
 
         const continueAdding = confirm("Do you want to add another employee?"); // following third prompt CONFIRM to continue or cancel.
         if (!continueAdding) { // begin if statement; if user chooses cancel...
@@ -38,17 +41,9 @@ const collectEmployees = function() { //defining a variable. variable is a FUNCT
     return employeesArray; // return the employeesArray, so it can be added to table.
 }
 
-// Display the average salary
-const displayAverageSalary = function(employeesArray) { // define value; value is a FUNCTION conditional upon employeesArray.
-  // Calculate total salary
-  let totalSalary = 0; // set inital total to 0
-  for (let i = 0; i < employeesArray.length; i++) { // begins a FOR loop. iterating over every object in the employeesArray.
-    totalSalary += employeesArray[i].salary; // add salary value of employee to total salary and replace totalSalary with the sum. Repeated for each index object's salary.
-  } // end FOR loop.
-  
-  const averageSalary = totalSalary / employeesArray.length; // defining variable for average salary. totalSalary divided by length of employeesArray to calculate average.
-  
-  console.log('Average Salary: ' + averageSalary.toLocaleString("en-US", { // log average salary to console in the style of USD currency.
+const displayAverageSalary = function() { // define value; value is a FUNCTION conditional upon employeesArray.
+  const averageSalary = totalSalary / numberOfEmployees;
+  console.log('Average Salary: ' + averageSalary.toLocaleString("en-US", {
     style: "currency",
     currency: "USD"
   }));
@@ -113,7 +108,7 @@ function numberWithCommas(x) {
 const trackEmployeeData = function() {
   const employees = collectEmployees();
 
-  displayAverageSalary(employees);
+  displayAverageSalary();
 
   console.log('==============================');
 
